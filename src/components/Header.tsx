@@ -54,9 +54,11 @@ const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="text-2xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-                YarnCrafts
-              </div>
+              <img 
+                src="/lovable-uploads/6504d8c2-5715-4d1d-ba60-6c8ea0be0640.png" 
+                alt="Artisanal Knits" 
+                className="h-12 w-auto"
+              />
             </div>
 
             {/* Desktop Navigation */}
