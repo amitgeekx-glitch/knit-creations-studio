@@ -3,11 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Heart, Menu, Search, ShoppingCart, User } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Heart, Menu, Search, ShoppingCart, User, LogIn, UserCircle, Package, Shield } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from '@/hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -39,10 +43,52 @@ const Header = () => {
                 <div className="w-6 h-6 bg-yarn-lavender rounded-full"></div>
                 <div className="w-6 h-6 bg-yarn-mint rounded-full"></div>
               </div>
-              <Button variant="ghost" size="sm">
-                <User className="w-4 h-4 mr-2" />
-                Login
-              </Button>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <UserCircle className="w-4 h-4 mr-2" />
+                      Account
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem asChild>
+                      <Link to="/account" className="cursor-pointer">
+                        <User className="h-4 w-4 mr-2" />
+                        My Account
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/orders" className="cursor-pointer">
+                        <Package className="h-4 w-4 mr-2" />
+                        My Orders
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin" className="cursor-pointer">
+                        <Shield className="h-4 w-4 mr-2" />
+                        Admin Panel
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => signOut()}
+                      className="cursor-pointer text-destructive"
+                    >
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/auth">
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Sign In
+                  </Link>
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -64,13 +110,13 @@ const Header = () => {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   className="text-foreground hover:text-primary transition-colors font-medium"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </nav>
 
@@ -118,14 +164,48 @@ const Header = () => {
                     </div>
                     <nav className="flex flex-col space-y-4">
                       {navItems.map((item) => (
-                        <a
+                        <Link
                           key={item.label}
-                          href={item.href}
+                          to={item.href}
                           className="text-foreground hover:text-primary transition-colors font-medium py-2 border-b border-border/50"
+                          onClick={() => setIsMenuOpen(false)}
                         >
                           {item.label}
-                        </a>
+                        </Link>
                       ))}
+                      
+                      {user ? (
+                        <>
+                          <Link to="/account" className="text-foreground hover:text-primary transition-colors font-medium py-2 border-b border-border/50" onClick={() => setIsMenuOpen(false)}>
+                            <User className="h-4 w-4 mr-2 inline" />
+                            My Account
+                          </Link>
+                          <Link to="/orders" className="text-foreground hover:text-primary transition-colors font-medium py-2 border-b border-border/50" onClick={() => setIsMenuOpen(false)}>
+                            <Package className="h-4 w-4 mr-2 inline" />
+                            My Orders
+                          </Link>
+                          <Link to="/admin" className="text-foreground hover:text-primary transition-colors font-medium py-2 border-b border-border/50" onClick={() => setIsMenuOpen(false)}>
+                            <Shield className="h-4 w-4 mr-2 inline" />
+                            Admin Panel
+                          </Link>
+                          <Button
+                            variant="ghost"
+                            onClick={() => {
+                              signOut();
+                              setIsMenuOpen(false);
+                            }}
+                            className="justify-start p-0 text-destructive hover:text-destructive py-2"
+                          >
+                            <LogIn className="h-4 w-4 mr-2" />
+                            Sign Out
+                          </Button>
+                        </>
+                      ) : (
+                        <Link to="/auth" className="text-foreground hover:text-primary transition-colors font-medium py-2 border-b border-border/50" onClick={() => setIsMenuOpen(false)}>
+                          <LogIn className="h-4 w-4 mr-2 inline" />
+                          Sign In
+                        </Link>
+                      )}
                     </nav>
                   </div>
                 </SheetContent>
