@@ -9,11 +9,13 @@ import { cn } from "@/lib/utils";
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
 import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
   const { cart } = useCart();
+  const { favorites } = useFavorites();
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const navItems = [
@@ -142,12 +144,16 @@ const Header = () => {
 
               {/* Action buttons */}
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="relative">
-                  <Heart className="w-5 h-5" />
-                  <Badge className="absolute -top-2 -right-2 bg-yarn-coral text-white text-xs px-1.5 py-0.5 rounded-full">
-                    2
-                  </Badge>
-                </Button>
+                <Link to="/favorites">
+                  <Button className="relative">
+                    <Heart className="w-5 h-5" />
+                    {favorites.length > 0 && (
+                      <Badge className="absolute -top-2 -right-2 bg-yarn-coral text-white text-xs px-1.5 py-0.5 rounded-full">
+                        {favorites.length}
+                      </Badge>
+                    )}
+                  </Button>
+                </Link>
                 <Link to="/cart">
                   <Button variant="ghost" size="sm" className="relative">
                     <ShoppingCart className="w-5 h-5" />

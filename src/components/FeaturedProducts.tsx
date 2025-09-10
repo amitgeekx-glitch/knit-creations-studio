@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Heart, ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
+  const { favorites, toggleFavorite, isFavorite } = useFavorites();
 
   const products = [
     {
@@ -102,13 +104,18 @@ const FeaturedProducts = () => {
                     {product.tag}
                   </Badge>
                 )}
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="absolute top-3 right-3 bg-background/80 backdrop-blur-sm hover:bg-background opacity-0 group-hover:opacity-100 transition-opacity"
+                <button
+                  className={`absolute top-2 right-2 z-10 p-1 rounded-full ${isFavorite(String(product.id)) ? 'bg-yarn-coral text-white' : 'bg-gray-200 text-gray-500'}`}
+                  onClick={() => toggleFavorite({
+                    id: String(product.id),
+                    name: product.name,
+                    price: product.price,
+                    image: product.imageSrc
+                  })}
+                  aria-label={isFavorite(String(product.id)) ? 'Remove from favorites' : 'Add to favorites'}
                 >
-                  <Heart className="w-4 h-4" />
-                </Button>
+                  <Heart fill={isFavorite(String(product.id)) ? 'currentColor' : 'none'} className="w-5 h-5" />
+                </button>
               </div>
 
               {/* Product Info */}
