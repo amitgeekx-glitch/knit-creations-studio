@@ -32,17 +32,21 @@ const Header = () => {
             <div className="flex items-center gap-6">
               <span className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-primary rounded-full"></span>
-                Free Shipping on Orders $50+
+                Free Shipping on Orders ₹1500+
               </span>
               <span>Handmade with Love</span>
             </div>
             <div className="hidden md:flex items-center gap-4">
               <span>Follow Us</span>
-              <div className="flex gap-2">
-                <div className="w-6 h-6 bg-yarn-pink rounded-full"></div>
-                <div className="w-6 h-6 bg-yarn-lavender rounded-full"></div>
-                <div className="w-6 h-6 bg-yarn-mint rounded-full"></div>
-              </div>
+              <a href="https://www.instagram.com/artisnaltreasures__19/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-primary hover:underline">
+                <span className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                  {/* Modern Instagram camera icon */}
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="white">
+                    <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                  </svg>
+                </span>
+                <span className="sr-only">Instagram</span>
+              </a>
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -95,15 +99,15 @@ const Header = () => {
       </div>
 
       {/* Main header */}
-      <header className="bg-background border-b border-border shadow-soft sticky top-0 z-50">
+      <header className="bg-background border-t border-b border-border shadow-soft sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center">
               <img 
-                src="/lovable-uploads/6504d8c2-5715-4d1d-ba60-6c8ea0be0640.png" 
+                src="/site_logo.png" 
                 alt="Artisanal Knits" 
-                className="h-10 w-auto mix-blend-multiply dark:mix-blend-normal dark:brightness-0 dark:invert"
+                className="logo h-14 w-auto mix-blend-multiply dark:mix-blend-normal dark:brightness-0 dark:invert"
               />
             </div>
 
