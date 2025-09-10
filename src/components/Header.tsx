@@ -57,7 +57,7 @@ const Header = () => {
               <img 
                 src="/lovable-uploads/6504d8c2-5715-4d1d-ba60-6c8ea0be0640.png" 
                 alt="Artisanal Knits" 
-                className="h-12 w-auto"
+                className="h-10 w-auto mix-blend-multiply dark:mix-blend-normal dark:brightness-0 dark:invert"
               />
             </div>
 
