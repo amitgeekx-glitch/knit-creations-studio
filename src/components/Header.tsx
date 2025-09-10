@@ -8,10 +8,13 @@ import { Heart, Menu, Search, ShoppingCart, User, LogIn, UserCircle, Package, Sh
 import { cn } from "@/lib/utils";
 import { useAuth } from '@/hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { useCart } from "@/context/CartContext";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, signOut } = useAuth();
+  const { cart } = useCart();
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const navItems = [
     { label: "Home", href: "/" },
@@ -145,12 +148,16 @@ const Header = () => {
                     2
                   </Badge>
                 </Button>
-                <Button variant="ghost" size="sm" className="relative">
-                  <ShoppingCart className="w-5 h-5" />
-                  <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-full">
-                    3
-                  </Badge>
-                </Button>
+                <Link to="/cart">
+                  <Button variant="ghost" size="sm" className="relative">
+                    <ShoppingCart className="w-5 h-5" />
+                    {cartCount > 0 && (
+                      <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-full">
+                        {cartCount}
+                      </Badge>
+                    )}
+                  </Button>
+                </Link>
               </div>
 
               {/* Mobile menu */}
