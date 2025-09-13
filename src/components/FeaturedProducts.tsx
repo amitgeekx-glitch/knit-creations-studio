@@ -158,7 +158,7 @@ const FeaturedProducts = () => {
                 <Button
                   className="w-full group/btn"
                   onClick={() => addToCart({
-                    id: product.id,
+                    id: String(product.id),
                     name: product.name,
                     price: product.price,
                     quantity: 1,

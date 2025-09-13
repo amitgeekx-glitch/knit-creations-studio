@@ -2,6 +2,8 @@ import React from "react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const CartPage = () => {
   const { cart, removeFromCart, clearCart } = useCart();
@@ -14,51 +16,81 @@ const CartPage = () => {
       navigate("/auth");
       return;
     }
-    // TODO: Integrate PhonePe payment gateway here
+    // Integrate Paytm payment gateway
+    initiatePaytmPayment();
   };
 
-  if (cart.length === 0)
-    return <div className="p-8 text-center text-lg">Your cart is empty.</div>;
+  const initiatePaytmPayment = () => {
+    // Paytm integration logic will be implemented here
+    console.log("Initiating Paytm payment for total:", total);
+  };
+
+  if (cart.length === 0) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="container mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <h1 className="text-3xl font-bold mb-4">Your Cart</h1>
+            <p className="text-muted-foreground text-lg">Your cart is empty.</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">Your Cart</h1>
-      <ul className="divide-y divide-gray-200 mb-6">
-        {cart.map((item) => (
-          <li key={item.id} className="flex items-center py-4">
-            <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded mr-4 border" />
-            <div className="flex-1">
-              <div className="font-semibold text-lg">{item.name}</div>
-              <div className="text-gray-500">Qty: {item.quantity}</div>
-              <div className="text-primary font-bold">₹{item.price * item.quantity}</div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8 text-center">Your Cart</h1>
+          <div className="bg-card rounded-lg shadow-soft p-6 mb-6">
+            <div className="space-y-4">
+              {cart.map((item) => (
+                <div key={item.id} className="flex items-center gap-4 p-4 border border-border rounded-lg">
+                  <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg text-foreground">{item.name}</h3>
+                    <p className="text-muted-foreground">Quantity: {item.quantity}</p>
+                    <p className="text-primary font-bold text-lg">₹{item.price * item.quantity}</p>
+                  </div>
+                  <button
+                    className="text-destructive hover:text-destructive/80 font-semibold px-4 py-2 rounded-lg border border-destructive/20 hover:bg-destructive/10 transition-colors"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
             </div>
+          </div>
+
+          <div className="bg-card rounded-lg shadow-soft p-6 mb-6">
+            <div className="flex justify-between items-center text-xl font-bold">
+              <span>Total:</span>
+              <span className="text-2xl text-primary">₹{total}</span>
+            </div>
+          </div>
+
+          <div className="flex gap-4">
             <button
-              className="ml-4 text-red-500 hover:text-red-700 font-semibold px-2 py-1 rounded"
-              onClick={() => removeFromCart(item.id)}
+              className="flex-1 bg-primary text-primary-foreground py-4 rounded-lg text-lg font-semibold shadow-warm hover:bg-primary/90 transition-all hover:shadow-lg"
+              onClick={handleCheckout}
             >
-              Remove
+              Checkout with Paytm
             </button>
-          </li>
-        ))}
-      </ul>
-      <div className="flex justify-between items-center mb-6">
-        <span className="text-xl font-bold">Total:</span>
-        <span className="text-2xl text-primary font-bold">₹{total}</span>
-      </div>
-      <div className="flex gap-4">
-        <button
-          className="flex-1 bg-primary text-white py-3 rounded-lg text-lg font-semibold shadow hover:bg-primary/90 transition"
-          onClick={handleCheckout}
-        >
-          Checkout with PhonePe
-        </button>
-        <button
-          className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg text-lg font-semibold shadow hover:bg-gray-300 transition"
-          onClick={clearCart}
-        >
-          Clear Cart
-        </button>
-      </div>
+            <button
+              className="flex-1 bg-muted text-muted-foreground py-4 rounded-lg text-lg font-semibold hover:bg-muted/80 transition-colors"
+              onClick={clearCart}
+            >
+              Clear Cart
+            </button>
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
